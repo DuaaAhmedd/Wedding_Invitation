@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasnem & Abdelrhman | Wedding Invitation</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@400;500;600&display=swap');
+
+:root{
+  --navy:#173f70;
+  --blue:#315f92;
+  --cream:#faf7f2;
+  --gold:#b99a5c;
+  --soft:#dce7ef;
+  --ink:#26303a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{
+  background:var(--navy);
+  color:var(--ink);
+  font-family:"Cormorant Garamond",Georgia,serif;
+}
+.page{
+  width:min(100vw,520px);
+  height:100svh;
+  margin:auto;
+  position:relative;
+  overflow:hidden;
+  background:var(--cream);
+}
+.screen{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:linear-gradient(145deg,#fcfaf7,#f6f1ea);
+  opacity:0;
+  visibility:hidden;
+  transform:translateX(30px);
+  transition:opacity .65s ease,transform .65s ease,visibility .65s;
+}
+.screen.active{
+  opacity:1;
+  visibility:visible;
+  transform:translateX(0);
+  z-index:10;
+}
+
+/* ===== Ornate frame ===== */
+.frame{
+  position:absolute;
+  inset:22px;
+  border:1.5px solid rgba(185,154,92,.8);
+  pointer-events:none;
+  z-index:5;
+  box-shadow:inset 0 0 0 5px rgba(255,255,255,.18);
+}
+.frame:before,.frame:after{
+  content:"";
+  position:absolute;
+  width:78px;height:78px;
+  border:2px solid var(--gold);
+  background:var(--cream);
+  transform:rotate(45deg);
+}
+.frame:before{left:-41px;top:-41px}
+.frame:after{right:-41px;bottom:-41px}
+
+.corner{
+  position:absolute;
+  width:110px;height:110px;
+  z-index:6;
+  pointer-events:none;
+}
+.corner.tl{left:5px;top:5px}
+.corner.tr{right:5px;top:5px;transform:scaleX(-1)}
+.corner.bl{left:5px;bottom:5px;transform:scaleY(-1)}
+.corner.br{right:5px;bottom:5px;transform:scale(-1)}
+.corner svg{width:100%;height:100%}
+
+.corner path,.corner ellipse,.corner circle{
+  stroke:var(--gold);stroke-width:1.5;fill:none
+}
+.corner .blue{fill:var(--navy);stroke:var(--gold)}
+.corner .petal{fill:#9bb6cf;stroke:#6f8fac}
+
+/* ===== Flowers ===== */
+.flower{
+  position:absolute;
+  pointer-events:none;
+  z-index:2;
+  opacity:.96;
+}
+.flower-left{left:-70px;top:18%;width:175px;opacity:.28}
+.flower-right{right:-75px;top:24%;width:180px;opacity:.28}
+.faint-flower{opacity:.16;filter:blur(.2px)}
+
+h1,h2,h3,p{margin:0}
+.names{
+  font-family:"Playfair Display",serif;
+  color:var(--navy);
+  font-weight:500;
+}
+.cover{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.cover-content{
+  position:relative;
+  z-index:8;
+  width:78%;
+  margin-top:-10px;
+}
+.heart{
+  width:76px;height:76px;border-radius:50%;
+  margin:0 auto 44px;
+  background:var(--navy);
+  display:grid;place-items:center;
+  box-shadow:0 12px 28px rgba(23,63,112,.22);
+}
+.heart span{color:#fff;font-size:38px}
+.cover .names{font-size:49px;line-height:.98}
+.amp{font-size:27px;color:var(--navy);margin:12px 0}
+.date{
+  color:var(--navy);
+  font-size:24px;
+  margin-top:48px;
+  letter-spacing:.4px;
+}
+.invite{
+  font-size:21px;
+  margin-top:34px;
+  letter-spacing:1px;
+}
+.open{
+  appearance:none;border:0;cursor:pointer;
+  margin-top:38px;
+  padding:14px 58px;
+  border-radius:40px;
+  color:white;
+  background:var(--navy);
+  font:500 23px "Cormorant Garamond",serif;
+  box-shadow:0 12px 25px rgba(23,63,112,.25);
+  transition:transform .2s;
+}
+.open:hover{transform:translateY(-2px)}
+
+/* ===== Inner pages ===== */
+.inner{
+  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:70px 28px 80px;
+  text-align:center;
+  scrollbar-width:none;
+}
+.inner::-webkit-scrollbar{display:none}
+.heading{
+  color:var(--navy);
+  font-family:"Playfair Display",serif;
+  font-size:27px;
+  letter-spacing:1.8px;
+  line-height:1.25;
+}
+.subtitle{font-size:20px;letter-spacing:1px;margin-top:16px}
+.divider{width:95px;height:1px;background:var(--gold);margin:23px auto}
+
+.couple{
+  min-height:100%;
+  display:flex;align-items:center;justify-content:center;
+}
+.couple .names{font-size:55px;line-height:1}
+.role{
+  font-size:17px;
+  letter-spacing:5px;
+  margin:17px 0;
+}
+.amp-big{font-size:45px;color:var(--navy);margin:18px}
+
+.time{font-size:38px;margin:22px 0;color:#222}
+.date-row{
+  display:flex;align-items:center;justify-content:center;gap:17px;
+  color:#333;font-size:20px;letter-spacing:1px;
+}
+.date-row .number{font-size:52px;color:var(--navy)}
+.count-title{
+  margin-top:42px;
+  color:var(--navy);
+  font-family:"Playfair Display",serif;
+  font-size:25px;letter-spacing:2px
+}
+.timer{display:flex;justify-content:center;gap:10px;margin-top:15px}
+.timer div{min-width:62px}
+.timer b{display:block;font-size:27px;color:var(--navy)}
+.timer small{font-size:12px;letter-spacing:1px}
+
+.calendar{
+  border:1px solid rgba(185,154,92,.75);
+  margin:30px auto 0;
+  padding:19px 10px;
+  max-width:410px;
+  background:rgba(255,255,255,.35);
+}
+.cal-title{font-family:"Playfair Display",serif;color:var(--navy);font-size:21px;margin-bottom:15px}
+.week,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.week div{font-size:13px;color:#68798a}
+.days div{height:34px;display:grid;place-items:center;font-size:16px}
+.days .selected{
+  width:33px;height:33px;
+  justify-self:center;
+  border-radius:50%;
+  background:var(--navy);
+  color:#fff;
+}
+
+.venue-name{font-size:29px;color:#333;margin:14px 0 22px}
+.map{
+  height:270px;
+  max-width:420px;
+  margin:auto;
+  border:1px solid rgba(185,154,92,.55);
+  position:relative;
+  overflow:hidden;
+  background:#f0eee9;
+}
+.map:before{
+  content:"";
+  position:absolute;
+  width:150%;height:70px;
+  left:-25%;top:45%;
+  transform:rotate(-13deg);
+  background:rgba(83,169,199,.27);
+}
+.map:after{
+  content:"";
+  position:absolute;
+  width:130%;height:12px;
+  left:-15%;top:49%;
+  transform:rotate(-13deg);
+  background:rgba(255,255,255,.8);
+}
+.pin{
+  position:absolute;z-index:3;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:52px;height:52px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--navy);color:white;
+  border:5px solid white;
+  box-shadow:0 5px 14px rgba(0,0,0,.2);
+}
+.map-btn{
+  display:inline-block;
+  margin-top:22px;
+  padding:12px 24px;
+  background:white;
+  border:1px solid rgba(23,63,112,.2);
+  color:var(--navy);
+  text-decoration:none;
+  font-size:20px;
+  box-shadow:0 5px 16px rgba(0,0,0,.08);
+}
+.back{
+  position:fixed;
+  z-index:20;
+  top:36px;left:36px;
+  border:0;background:transparent;color:var(--navy);
+  font-size:25px;cursor:pointer;
+}
+.footer{
+  padding:50px 20px 80px;
+  text-align:center;
+}
+.footer .names{font-size:38px}
+.footer p{font-size:19px;margin-top:20px}
+
+@media(max-width:390px){
+  .frame{inset:17px}
+  .cover .names{font-size:43px}
+  .cover-content{width:82%}
+  .flower-left,.flower-right{width:175px}
+}
+
+.floral-border{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  overflow:hidden;
+}
+.floral-border svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.screen > .frame{z-index:6}
+.screen > .corner{z-index:7}
+.cover-content{z-index:8}
+</style>
+
+<meta property="og:title" content="Tasnem & Abdelrhman | Wedding Invitation">
+<meta property="og:description" content="We joyfully invite you to celebrate our wedding • 18 August 2026">
+<meta property="og:image" content="https://duaaahmedd.github.io/wedding/preview.jpg">
+<meta property="og:url" content="https://duaaahmedd.github.io/wedding/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tasnem & Abdelrhman Wedding">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tasnem & Abdelrhman | Wedding Invitation">
+<meta name="twitter:description" content="18 August 2026 • Wedding Invitation">
+<meta name="twitter:image" content="https://duaaahmedd.github.io/wedding/preview.jpg">
+</head>
+<body>
+<div class="page">
+
+<!-- ===== PAGE 1 ===== -->
+<section class="screen cover active" id="page1">
+<div class="floral-border" aria-hidden="true">
+<svg viewBox="0 0 520 900" preserveAspectRatio="none">
+  <defs>
+    <g id="blueflower">
+      <circle cx="0" cy="0" r="6" fill="#d8e4ed" stroke="#8fa9c0" stroke-width="1.5"/>
+      <ellipse cx="0" cy="-13" rx="8" ry="15" fill="#9eb8cf" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="12" cy="-4" rx="8" ry="15" transform="rotate(55 12 -4)" fill="#aec4d8" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="8" cy="11" rx="8" ry="15" transform="rotate(110 8 11)" fill="#a1bad1" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="-8" cy="11" rx="8" ry="15" transform="rotate(-110 -8 11)" fill="#aec4d8" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="-12" cy="-4" rx="8" ry="15" transform="rotate(-55 -12 -4)" fill="#9eb8cf" stroke="#7895af" stroke-width="1.2"/>
+      <circle cx="0" cy="0" r="3" fill="#d4b76d"/>
+    </g>
+    <g id="whiteflower">
+      <circle cx="0" cy="0" r="5" fill="#e8dcc0"/>
+      <ellipse cx="0" cy="-12" rx="7" ry="14" fill="#fffdf8" stroke="#c6c8c6"/>
+      <ellipse cx="11" cy="-4" rx="7" ry="14" transform="rotate(55 11 -4)" fill="#fffdf8" stroke="#c6c8c6"/>
+      <ellipse cx="7" cy="10" rx="7" ry="14" transform="rotate(110 7 10)" fill="#f8f8f4" stroke="#c6c8c6"/>
+      <ellipse cx="-7" cy="10" rx="7" ry="14" transform="rotate(-110 -7 10)" fill="#fffdf8" stroke="#c6c8c6"/>
+      <ellipse cx="-11" cy="-4" rx="7" ry="14" transform="rotate(-55 -11 -4)" fill="#f8f8f4" stroke="#c6c8c6"/>
+      <circle cx="0" cy="0" r="2.8" fill="#cda95d"/>
+    </g>
+  </defs>
+
+  <!-- elegant vines -->
+  <g fill="none" stroke="#9d9c83" stroke-width="1.2" opacity=".8">
+    <path d="M18 180 C70 110 75 48 160 18"/>
+    <path d="M502 180 C450 110 445 48 360 18"/>
+    <path d="M18 720 C70 790 75 852 160 882"/>
+    <path d="M502 720 C450 790 445 852 360 882"/>
+    <path d="M22 280 C50 340 45 420 20 480"/>
+    <path d="M498 280 C470 340 475 420 500 480"/>
+    <path d="M22 620 C50 560 45 480 20 420"/>
+    <path d="M498 620 C470 560 475 480 500 420"/>
+  </g>
+
+  <!-- top left cluster -->
+  <g transform="translate(42 62) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(82 38) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(116 78) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(55 120) scale(.55)"><use href="#whiteflower"/></g>
+  <g transform="translate(126 125) scale(.42)"><use href="#blueflower"/></g>
+
+  <!-- top right cluster -->
+  <g transform="translate(478 62) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(438 38) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(404 78) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(465 120) scale(.55)"><use href="#whiteflower"/></g>
+  <g transform="translate(394 125) scale(.42)"><use href="#blueflower"/></g>
+
+  <!-- left side -->
+  <g transform="translate(35 225) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(48 330) scale(.45)"><use href="#whiteflower"/></g>
+  <g transform="translate(34 470) scale(.68)"><use href="#blueflower"/></g>
+  <g transform="translate(50 585) scale(.48)"><use href="#whiteflower"/></g>
+  <g transform="translate(38 680) scale(.60)"><use href="#blueflower"/></g>
+
+  <!-- right side -->
+  <g transform="translate(485 225) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(472 330) scale(.45)"><use href="#whiteflower"/></g>
+  <g transform="translate(486 470) scale(.68)"><use href="#blueflower"/></g>
+  <g transform="translate(470 585) scale(.48)"><use href="#whiteflower"/></g>
+  <g transform="translate(482 680) scale(.60)"><use href="#blueflower"/></g>
+
+  <!-- bottom clusters -->
+  <g transform="translate(42 838) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(82 862) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(116 822) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(55 780) scale(.55)"><use href="#whiteflower"/></g>
+
+  <g transform="translate(478 838) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(438 862) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(404 822) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(465 780) scale(.55)"><use href="#whiteflower"/></g>
+
+  <!-- tiny leaves -->
+  <g fill="#a7b8a0" opacity=".85">
+    <ellipse cx="72" cy="165" rx="4" ry="11" transform="rotate(45 72 165)"/>
+    <ellipse cx="95" cy="150" rx="4" ry="11" transform="rotate(-45 95 150)"/>
+    <ellipse cx="448" cy="165" rx="4" ry="11" transform="rotate(-45 448 165)"/>
+    <ellipse cx="425" cy="150" rx="4" ry="11" transform="rotate(45 425 150)"/>
+    <ellipse cx="72" cy="735" rx="4" ry="11" transform="rotate(-45 72 735)"/>
+    <ellipse cx="95" cy="750" rx="4" ry="11" transform="rotate(45 95 750)"/>
+    <ellipse cx="448" cy="735" rx="4" ry="11" transform="rotate(45 448 735)"/>
+    <ellipse cx="425" cy="750" rx="4" ry="11" transform="rotate(-45 425 750)"/>
+  </g>
+</svg>
+</div>
+
+  <div class="frame"></div>
+  <div class="corner tl"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/><ellipse class="petal" cx="28" cy="55" rx="8" ry="16" transform="rotate(42 28 55)"/><ellipse class="petal" cx="42" cy="43" rx="8" ry="16" transform="rotate(58 42 43)"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/><ellipse class="petal" cx="28" cy="55" rx="8" ry="16" transform="rotate(42 28 55)"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/></svg></div>
+
+  <!-- soft watercolor flowers -->
+  <svg class="flower flower-left" viewBox="0 0 220 300">
+    <g fill="#d5e1ea" stroke="#aabccc" stroke-width="1.4">
+      <path d="M35 120C0 91 25 55 58 75C82 89 72 128 45 143Z"/>
+      <path d="M75 181C38 147 69 113 100 135C121 150 108 187 86 199Z"/>
+      <path d="M105 74C80 42 105 14 132 30C154 43 145 71 121 87Z"/>
+    </g>
+    <g fill="none" stroke="#a7b8c8" stroke-width="2">
+      <path d="M20 285 Q65 190 120 92 Q155 35 207 13"/>
+      <path d="M75 185 Q35 166 25 130"/>
+      <path d="M112 89 Q94 58 105 31"/>
+    </g>
+  </svg>
+  <svg class="flower flower-right" viewBox="0 0 220 300" style="transform:scaleX(-1)">
+    <g fill="#cbdce9" stroke="#a2b7ca" stroke-width="1.4">
+      <path d="M35 120C0 91 25 55 58 75C82 89 72 128 45 143Z"/>
+      <path d="M75 181C38 147 69 113 100 135C121 150 108 187 86 199Z"/>
+      <path d="M105 74C80 42 105 14 132 30C154 43 145 71 121 87Z"/>
+    </g>
+    <g fill="none" stroke="#a7b8c8" stroke-width="2">
+      <path d="M20 285 Q65 190 120 92 Q155 35 207 13"/>
+    </g>
+  </svg>
+
+  <div class="cover-content">
+    <div class="heart"><span>♥</span></div>
+    <div class="names">Tasnem</div>
+    <div class="amp">&amp;</div>
+    <div class="names">Abdelrhman</div>
+    <div class="date">August 18, 2026</div>
+    <div class="invite">Cordially Invites You</div>
+    <button class="open" onclick="showPage('page2')">Open</button>
+  </div>
+</section>
+
+<!-- ===== PAGE 2 ===== -->
+<section class="screen" id="page2">
+<div class="floral-border" aria-hidden="true">
+<svg viewBox="0 0 520 900" preserveAspectRatio="none">
+  <defs>
+    <g id="blueflower">
+      <circle cx="0" cy="0" r="6" fill="#d8e4ed" stroke="#8fa9c0" stroke-width="1.5"/>
+      <ellipse cx="0" cy="-13" rx="8" ry="15" fill="#9eb8cf" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="12" cy="-4" rx="8" ry="15" transform="rotate(55 12 -4)" fill="#aec4d8" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="8" cy="11" rx="8" ry="15" transform="rotate(110 8 11)" fill="#a1bad1" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="-8" cy="11" rx="8" ry="15" transform="rotate(-110 -8 11)" fill="#aec4d8" stroke="#7895af" stroke-width="1.2"/>
+      <ellipse cx="-12" cy="-4" rx="8" ry="15" transform="rotate(-55 -12 -4)" fill="#9eb8cf" stroke="#7895af" stroke-width="1.2"/>
+      <circle cx="0" cy="0" r="3" fill="#d4b76d"/>
+    </g>
+    <g id="whiteflower">
+      <circle cx="0" cy="0" r="5" fill="#e8dcc0"/>
+      <ellipse cx="0" cy="-12" rx="7" ry="14" fill="#fffdf8" stroke="#c6c8c6"/>
+      <ellipse cx="11" cy="-4" rx="7" ry="14" transform="rotate(55 11 -4)" fill="#fffdf8" stroke="#c6c8c6"/>
+      <ellipse cx="7" cy="10" rx="7" ry="14" transform="rotate(110 7 10)" fill="#f8f8f4" stroke="#c6c8c6"/>
+      <ellipse cx="-7" cy="10" rx="7" ry="14" transform="rotate(-110 -7 10)" fill="#fffdf8" stroke="#c6c8c6"/>
+      <ellipse cx="-11" cy="-4" rx="7" ry="14" transform="rotate(-55 -11 -4)" fill="#f8f8f4" stroke="#c6c8c6"/>
+      <circle cx="0" cy="0" r="2.8" fill="#cda95d"/>
+    </g>
+  </defs>
+
+  <!-- elegant vines -->
+  <g fill="none" stroke="#9d9c83" stroke-width="1.2" opacity=".8">
+    <path d="M18 180 C70 110 75 48 160 18"/>
+    <path d="M502 180 C450 110 445 48 360 18"/>
+    <path d="M18 720 C70 790 75 852 160 882"/>
+    <path d="M502 720 C450 790 445 852 360 882"/>
+    <path d="M22 280 C50 340 45 420 20 480"/>
+    <path d="M498 280 C470 340 475 420 500 480"/>
+    <path d="M22 620 C50 560 45 480 20 420"/>
+    <path d="M498 620 C470 560 475 480 500 420"/>
+  </g>
+
+  <!-- top left cluster -->
+  <g transform="translate(42 62) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(82 38) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(116 78) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(55 120) scale(.55)"><use href="#whiteflower"/></g>
+  <g transform="translate(126 125) scale(.42)"><use href="#blueflower"/></g>
+
+  <!-- top right cluster -->
+  <g transform="translate(478 62) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(438 38) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(404 78) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(465 120) scale(.55)"><use href="#whiteflower"/></g>
+  <g transform="translate(394 125) scale(.42)"><use href="#blueflower"/></g>
+
+  <!-- left side -->
+  <g transform="translate(35 225) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(48 330) scale(.45)"><use href="#whiteflower"/></g>
+  <g transform="translate(34 470) scale(.68)"><use href="#blueflower"/></g>
+  <g transform="translate(50 585) scale(.48)"><use href="#whiteflower"/></g>
+  <g transform="translate(38 680) scale(.60)"><use href="#blueflower"/></g>
+
+  <!-- right side -->
+  <g transform="translate(485 225) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(472 330) scale(.45)"><use href="#whiteflower"/></g>
+  <g transform="translate(486 470) scale(.68)"><use href="#blueflower"/></g>
+  <g transform="translate(470 585) scale(.48)"><use href="#whiteflower"/></g>
+  <g transform="translate(482 680) scale(.60)"><use href="#blueflower"/></g>
+
+  <!-- bottom clusters -->
+  <g transform="translate(42 838) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(82 862) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(116 822) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(55 780) scale(.55)"><use href="#whiteflower"/></g>
+
+  <g transform="translate(478 838) scale(1.15)"><use href="#blueflower"/></g>
+  <g transform="translate(438 862) scale(.78)"><use href="#whiteflower"/></g>
+  <g transform="translate(404 822) scale(.62)"><use href="#blueflower"/></g>
+  <g transform="translate(465 780) scale(.55)"><use href="#whiteflower"/></g>
+
+  <!-- tiny leaves -->
+  <g fill="#a7b8a0" opacity=".85">
+    <ellipse cx="72" cy="165" rx="4" ry="11" transform="rotate(45 72 165)"/>
+    <ellipse cx="95" cy="150" rx="4" ry="11" transform="rotate(-45 95 150)"/>
+    <ellipse cx="448" cy="165" rx="4" ry="11" transform="rotate(-45 448 165)"/>
+    <ellipse cx="425" cy="150" rx="4" ry="11" transform="rotate(45 425 150)"/>
+    <ellipse cx="72" cy="735" rx="4" ry="11" transform="rotate(-45 72 735)"/>
+    <ellipse cx="95" cy="750" rx="4" ry="11" transform="rotate(45 95 750)"/>
+    <ellipse cx="448" cy="735" rx="4" ry="11" transform="rotate(45 448 735)"/>
+    <ellipse cx="425" cy="750" rx="4" ry="11" transform="rotate(-45 425 750)"/>
+  </g>
+</svg>
+</div>
+
+  <button class="back" onclick="showPage('page1')">‹</button>
+  <div class="frame"></div>
+  <div class="corner tl"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/><ellipse class="petal" cx="28" cy="55" rx="8" ry="16"/></svg></div>
+  <div class="corner tr"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/></svg></div>
+  <div class="corner bl"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/></svg></div>
+  <div class="corner br"><svg viewBox="0 0 110 110"><path d="M8 73 Q22 28 72 8 Q83 3 99 9"/><path d="M13 87 Q35 46 82 23"/><path class="blue" d="M48 27 C39 14 53 4 64 14 C75 4 89 14 80 27 C70 38 59 42 48 27Z"/></svg></div>
+
+  <div class="inner">
+    <div class="couple">
+      <div>
+        <h2 class="heading">WE JOYFULLY ANNOUNCE</h2>
+        <p class="subtitle">THE WEDDING OF OUR CHILDREN</p>
+        <div class="divider"></div>
+        <div class="names">Tasnem</div>
+        <div class="role">BRIDE</div>
+        <div class="amp-big">&amp;</div>
+        <div class="names">Abdelrhman</div>
+        <div class="role">GROOM</div>
+        <div class="divider"></div>
+      </div>
+    </div>
+
+    <div style="padding-top:50px">
+      <h2 class="heading">RECEPTION INFO</h2>
+      <div class="subtitle">THE RECEPTION WILL TAKE PLACE AT:</div>
+      <div class="time">20:00</div>
+      <div class="date-row">
+        <span>TUESDAY</span><b>|</b><span class="number">18</span><b>|</b><span>AUGUST</span>
+      </div>
+      <div class="subtitle">2026</div>
+
+      <div class="count-title">COUNTDOWN</div>
+      <div class="timer">
+        <div><b id="days">--</b><small>DAYS</small></div>
+        <div><b id="hours">--</b><small>HOURS</small></div>
+        <div><b id="mins">--</b><small>MIN</small></div>
+        <div><b id="secs">--</b><small>SEC</small></div>
+      </div>
+
+      <div class="calendar">
+        <div class="cal-title">August 2026</div>
+        <div class="week"><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div></div>
+        <div class="days">
+          <div></div><div></div><div></div><div></div><div></div><div>1</div><div>2</div>
+          <div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div>
+          <div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div>15</div><div>16</div>
+          <div>17</div><div class="selected">18</div><div>19</div><div>20</div><div>21</div><div>22</div><div>23</div>
+          <div>24</div><div>25</div><div>26</div><div>27</div><div>28</div><div>29</div><div>30</div>
+          <div>31</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding-top:70px">
+      <h2 class="heading">WEDDING RECEPTION VENUE</h2>
+      <div class="venue-name">Marriott Hall</div>
+      <div class="map"><div class="pin">♥</div></div>
+      <a class="map-btn" target="_blank" rel="noopener"
+       href="https://www.google.com/maps/search/Marriott%20hall/@30.56755828857422,31.50486183166504,17z?hl=en">
+       Open in Maps ↗
+      </a>
+    </div>
+
+    <div class="footer">
+      <div class="names">Tasnem &amp; Abdelrhman</div>
+      <p>We can't wait to celebrate with you 🤍</p>
+      <div class="divider"></div>
+      <p>18 • 08 • 2026</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+function showPage(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='page2'){
+    document.querySelector('#page2 .inner').scrollTop=0;
+  }
+}
+const target = new Date("2026-08-18T20:00:00+03:00").getTime();
+function updateCountdown(){
+  const diff=Math.max(0,target-Date.now());
+  document.getElementById("days").textContent=Math.floor(diff/86400000);
+  document.getElementById("hours").textContent=String(Math.floor(diff%86400000/3600000)).padStart(2,"0");
+  document.getElementById("mins").textContent=String(Math.floor(diff%3600000/60000)).padStart(2,"0");
+  document.getElementById("secs").textContent=String(Math.floor(diff%60000/1000)).padStart(2,"0");
+}
+updateCountdown();setInterval(updateCountdown,1000);
+</script>
+</body>
+</html>
